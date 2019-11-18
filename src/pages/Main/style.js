@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 export const Container = styled.div`
   background: #fff;
@@ -34,9 +34,20 @@ export const Form = styled.form`
   }
 `;
 
-export const SubmitButton = styled.button.attrs({
-  type: 'button',
-})`
+const rotateAnimation = keyframes`
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+`;
+
+export const SubmitButton = styled.button.attrs(props => ({
+  type: 'submit',
+  disabled: props.loading,
+}))`
   background: #7159c1;
   border: none;
   padding: 0 15px;
@@ -46,4 +57,38 @@ export const SubmitButton = styled.button.attrs({
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  ${props =>
+    props.loading &&
+    css`
+      svg {
+        animation: ${rotateAnimation} 1s linear infinite;
+      }
+    `}
+`;
+
+export const ListRepo = styled.ul`
+  list-style: none;
+  margin-top: 30px;
+
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+
+    & + li {
+      border-top: 1px solid #eee;
+    }
+
+    a {
+      text-decoration: none;
+      color: #7159c1;
+    }
+  }
 `;
