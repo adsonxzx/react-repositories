@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import api from '../../services/api';
 
-import { Container, Form, SubmitButton, ListRepo } from './style';
+import { Form, SubmitButton, ListRepo } from './style';
+import Container from '../../components/Container';
 
 export default class Main extends Component {
-  state = {
-    newRepo: '',
-    repositories: [],
-    loading: false,
-  };
+  constructor() {
+    super();
+    this.state = {
+      newRepo: '',
+      repositories: [],
+      loading: false,
+    };
+  }
 
   componentDidMount() {
     const repositories = JSON.parse(localStorage.getItem('repositories'));
@@ -49,8 +54,8 @@ export default class Main extends Component {
     return (
       <Container>
         <h1>
-          <FaGithubAlt />
-          Repositorios
+          <FaGithubAlt size={40} />
+          <span> Repositorios </span>
         </h1>
 
         <Form onSubmit={this.handleSubmit}>
@@ -73,7 +78,9 @@ export default class Main extends Component {
           {repositories.map(repo => (
             <li key={repo}>
               <span>{repo}</span>
-              <a href="/">Detalhes</a>
+              <Link to={`/repository/${encodeURIComponent(repo)}`}>
+                Detalhes
+              </Link>
             </li>
           ))}
         </ListRepo>

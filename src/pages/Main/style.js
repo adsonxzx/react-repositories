@@ -1,25 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
 
-export const Container = styled.div`
-  background: #fff;
-  border-radius: 4px;
-  max-width: 700px;
-  margin: 80px auto;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-
-  h1 {
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    svg {
-      margin-right: 10px;
-    }
-  }
-`;
-
 export const Form = styled.form`
   display: flex;
   flex-direction: row;
@@ -48,7 +28,7 @@ export const SubmitButton = styled.button.attrs(props => ({
   type: 'submit',
   disabled: props.loading,
 }))`
-  background: #7159c1;
+  background: #3b5bfd;
   border: none;
   padding: 0 15px;
   border-radius: 4px;
@@ -88,7 +68,7 @@ export const ListRepo = styled.ul`
 
     a {
       text-decoration: none;
-      color: #7159c1;
+      color: #3b5bfd;
     }
   }
 `;
