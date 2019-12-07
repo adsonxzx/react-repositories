@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import Container from '../../components/Container';
 
-import { Owner, Issues } from './styles';
+import { Owner, Issues, Filter } from './styles';
 
 export default class Repository extends Component {
   state = {
@@ -33,6 +33,26 @@ export default class Repository extends Component {
     });
   }
 
+  handleFilter = async e => {
+    let elements = document.getElementsByClassName('filter-issues');
+    elements = [...elements];
+    elements.map(el => el.classList.remove('active'));
+    e.target.classList.add('active');
+
+    const { match } = this.props;
+    const repoName = decodeURIComponent(match.params.repository);
+    const { data: issues } = await api.get(`/repos/${repoName}/issues`, {
+      params: {
+        state: e.target.dataset.filter,
+        per_page: 5,
+      },
+    });
+
+    this.setState({
+      issues,
+    });
+  };
+
   render() {
     const { repository, issues, loading } = this.state;
 
@@ -52,6 +72,30 @@ export default class Repository extends Component {
           <span>{repository.name}</span>
           <p>{repository.description}</p>
         </Owner>
+
+        <Filter>
+          <span
+            data-filter="all"
+            className="filter-issues -all"
+            onClick={this.handleFilter}
+          >
+            All
+          </span>
+          <span
+            data-filter="open"
+            className="filter-issues -open active"
+            onClick={this.handleFilter}
+          >
+            Open
+          </span>
+          <span
+            data-filter="closed"
+            className="filter-issues -closed"
+            onClick={this.handleFilter}
+          >
+            Closed
+          </span>
+        </Filter>
 
         <Issues>
           {issues.map(issue => (

@@ -4,6 +4,8 @@ export const Owner = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
 
   a {
     text-decoration: none;
@@ -38,9 +40,7 @@ export const Owner = styled.div`
 export const Issues = styled.ul`
   display: flex;
   flex-direction: column;
-  margin-top: 30px;
-  border-top: 1px solid #eee;
-  padding-top: 30px;
+  padding-top: 20px;
 
   li {
     padding: 15px 10px;
@@ -98,5 +98,39 @@ export const Issues = styled.ul`
         color: #999;
       }
     }
+  }
+`;
+
+export const Filter = styled.div`
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > .filter-issues {
+    padding: 5px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0 10px;
+    color: #586069;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  > .filter-issues.-all.active {
+    border: none;
+    background: #ccc;
+  }
+
+  > .filter-issues.-open.active {
+    border: none;
+    color: #fff;
+    background: #28a745;
+  }
+
+  > .filter-issues.-closed.active {
+    border: none;
+    color: #fff;
+    background: #cb2431;
   }
 `;
