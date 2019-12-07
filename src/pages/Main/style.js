@@ -11,6 +11,7 @@ export const Form = styled.form`
     border: 1px solid #eee;
     padding: 10px 15px;
     font-size: 16px;
+    border-color: ${props => props.error && 'red'};
   }
 `;
 
