@@ -134,3 +134,44 @@ export const Filter = styled.div`
     background: #cb2431;
   }
 `;
+
+export const Pagination = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+
+  > .pagination-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    color: #606060;
+    background: #e0e0e0;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0px 0 4px rgba(0, 0, 0, 0.2);
+    border: none;
+
+    &[disabled] {
+      border: none;
+      cursor: not-allowed;
+      opacity: 0.5;
+
+      &:hover {
+        background: #e0e0e0;
+        color: #606060;
+      }
+    }
+
+    &:hover {
+      background: #3b5bfd;
+      color: #fff;
+    }
+
+    &:first-child {
+      margin-right: 30px;
+    }
+  }
+`;
