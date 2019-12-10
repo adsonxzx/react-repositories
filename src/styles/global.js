@@ -26,4 +26,10 @@ export default createGlobalStyle`
   button {
     cursor: pointer;
   }
+
+  .container-load {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+  }
 `;

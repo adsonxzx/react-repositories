@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import api from '../../services/api';
 import Container from '../../components/Container';
+import Loading from '../../components/Loading';
 
 import { Owner, Issues, Filter, Pagination } from './styles';
 
@@ -15,6 +16,7 @@ export default class Repository extends Component {
     repository: {},
     issues: [],
     loading: true,
+    loadingIssues: true,
     page: 1,
     filter: 'open',
   };
@@ -23,6 +25,10 @@ export default class Repository extends Component {
     const { match } = this.props;
     // eslint-disable-next-line react/prop-types
     const repoName = decodeURIComponent(match.params.repository);
+
+    this.setState({
+      loadingIssues: true,
+    });
 
     const [repository, issues] = await Promise.all([
       api.get(`/repos/${repoName}`),
@@ -38,6 +44,7 @@ export default class Repository extends Component {
       repository: repository.data,
       issues: issues.data,
       loading: false,
+      loadingIssues: false,
     });
   }
 
@@ -49,6 +56,11 @@ export default class Repository extends Component {
 
     const { match } = this.props;
     const repoName = decodeURIComponent(match.params.repository);
+
+    this.setState({
+      loadingIssues: true,
+    });
+
     const { data: issues } = await api.get(`/repos/${repoName}/issues`, {
       params: {
         state: filter,
@@ -60,6 +72,7 @@ export default class Repository extends Component {
       issues,
       filter,
       page: 1,
+      loadingIssues: false,
     });
   };
 
@@ -67,6 +80,10 @@ export default class Repository extends Component {
     const { match } = this.props;
     const { filter, page } = this.state;
     const repoName = decodeURIComponent(match.params.repository);
+
+    this.setState({
+      loadingIssues: true,
+    });
 
     const { data: issues } = await api.get(`/repos/${repoName}/issues`, {
       params: {
@@ -79,16 +96,17 @@ export default class Repository extends Component {
     this.setState({
       issues,
       page: e === 'next' ? page + 1 : page - 1,
+      loadingIssues: false,
     });
   };
 
   render() {
-    const { repository, issues, loading, page } = this.state;
+    const { repository, issues, loading, page, loadingIssues } = this.state;
 
     if (loading) {
       return (
         <Container>
-          <p>carregando</p>
+          <Loading />
         </Container>
       );
     }
@@ -123,23 +141,27 @@ export default class Repository extends Component {
           </span>
         </Filter>
 
-        <Issues>
-          {issues.map(issue => (
-            <li key={String(issue.id)}>
-              <img src={issue.user.avatar_url} alt="" />
-              <div>
-                <strong>
-                  <a href={issue.html_url}> {issue.title}</a>
+        {loadingIssues ? (
+          <Loading />
+        ) : (
+          <Issues>
+            {issues.map(issue => (
+              <li key={String(issue.id)}>
+                <img src={issue.user.avatar_url} alt="" />
+                <div>
+                  <strong>
+                    <a href={issue.html_url}> {issue.title}</a>
 
-                  {issue.labels.map(iss => (
-                    <span key={String(iss.id)}>{iss.name}</span>
-                  ))}
-                </strong>
-                <p>{issue.user.login}</p>
-              </div>
-            </li>
-          ))}
-        </Issues>
+                    {issue.labels.map(iss => (
+                      <span key={String(iss.id)}>{iss.name}</span>
+                    ))}
+                  </strong>
+                  <p>{issue.user.login}</p>
+                </div>
+              </li>
+            ))}
+          </Issues>
+        )}
 
         <Pagination>
           <button
